@@ -41,7 +41,7 @@ function RectangleCUrsor(props)
 {
         let _appContext = useContext(appContext);
         const _PixiContext = useContext(pixiContext);
-        let cursorSpeed = useRef(2);
+        let cursorSpeed = useRef(2); // 1 2 2.5 5 a changer en fonction de la concentration
         let cursorSize = useRef(2);
         let cursorDirection = useRef('DOWN');
         const SuccessZoneParam = useRef({y:(170*0.5)-(25*0.5) ,h:25});
@@ -101,7 +101,7 @@ function RectangleCUrsor(props)
                         {
                                 if(cursorDirection.current == 'DOWN')
                                 {
-                                        if(CursorY != 170-cursorSize.current )
+                                        if(CursorY != 170 )
                                         {
                                                 cursorYValue.current = cursorYValue.current + cursorSpeed.current
                                                 setCursorY(c => c = cursorYValue.current)
@@ -151,14 +151,7 @@ function RectangleCUrsor(props)
                         {
                                 cursorController(args)
                         }
-                        // props.appCont.checkCusrorFunc.current = ()=>
-                        // {
-                        //         checkCursorPosition()
-                        // }
-                        // props.appCont.cursorCanMoveFunc.current = (args)=>
-                        // {
-                        //         cursorCanMoveFunc(args)
-                        // }
+                        
                 },[])
               return(
                         <>
@@ -192,8 +185,8 @@ export function PixiElem()
                             <Stage
 
                                     width={20}
-                                    height={170}
-                                //     options={{ background: 0x1099bb }}
+                                    height={172}
+                                //     options={{ background: 'red' }}
                                     >
                                         
                                     <Container

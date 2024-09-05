@@ -23,6 +23,8 @@ export function HandModel(props) {
   let handModeRef = useRef(null)
   const {actions} = useAnimations(animations,group)
   let [txt,supportTXT] = useTexture(['handtxt1.jpg','supportTXT.jpg']);
+  let passedTime = useRef(0);
+  let stopHandNormalAnimation = useRef(false)
   txt.flipY = false;
   txt.colorSpace = THREE.SRGBColorSpace; 
   txt.minFilter = THREE.LinearFilter;
@@ -54,6 +56,8 @@ export function HandModel(props) {
             {
               handMoveObj.type ='fail'
             }
+            handModeRef.current.position.y = 15;
+            stopHandNormalAnimation.current = true;
             buttonClicked.current = true;
             handMoveObj.start = true
             
@@ -68,7 +72,7 @@ export function HandModel(props) {
       brick.brake = brick.brake? false : true
     
       handModeRef.current.visible = false;
-      handModeRef.current.position.y = 9;
+      handModeRef.current.position.y = 12;
       if(args == 'RESTART'){}
       else if(args == 'NEXT')
       {
@@ -79,13 +83,14 @@ export function HandModel(props) {
     }
   let handMove = ()=>
     {
+      
       if(handMoveObj.start)
       {
         if(handMoveObj.type == 'success')
         {
             if(handModeRef.current.position.y <= 1)
             { AudioManage.play('punch');
-              console.log('casser')
+              // console.log('casser')
               handMoveObj.start = false;
               brickManagerFunc.current('BREAKE-BRICK');
             }
@@ -117,10 +122,21 @@ export function HandModel(props) {
       _appContext.cursorControllerFunc.current('restart');
       buttonClicked.current = false
       handModeRef.current.visible = true;
+      stopHandNormalAnimation.current = false
+    }
+  let handNormalAnimation = ()=>
+    {
+      if(!stopHandNormalAnimation.current)
+        {
+          handModeRef.current.position.y += (Math.sin(passedTime.current))/60
+        }
+      
     }
   useFrame(()=>
     {
+      passedTime.current += 1/20;
       handMove()
+      handNormalAnimation()
       
     })
   useEffect(()=>
@@ -134,7 +150,7 @@ export function HandModel(props) {
      
         <group ref={group} {...props} dispose={null}>
           
-              <mesh name='HAND-BOX' ref={handModeRef} visible={false} geometry={nodes.hand_1_box.geometry} material={handBox} position={[0.5,9,0]}>
+              <mesh name='HAND-BOX' ref={handModeRef} visible={false} geometry={nodes.hand_1_box.geometry} material={handBox} position={[0.5,12,0]}>
                     <mesh rotation={[0,Math.PI,Math.PI]}  geometry={nodes.hand_1.geometry} material={modelTxt} position={[-0.3,2.3,0.2]} >
                             <mesh geometry={nodes.hand_1.geometry} scale={1.03}>
                                     <meshBasicMaterial visible={false} color={'red'} side={THREE.BackSide} />

@@ -20,7 +20,7 @@ function CusrorBack(props)
         const SuccessZone = useCallback((g) => {
                 let rectSize = SuccessZoneParam.current.h
                 g.clear();
-                g.beginFill("white");
+                g.beginFill("0x04bf8a");
                 g.drawRect(
                   0,
                  ( props.h*0.5)-(rectSize*0.5),
@@ -86,12 +86,12 @@ function RectangleCUrsor(props)
                         )
                         {
                                 props.appCont.StartHandMoveFunc.current('success');
-                                console.log('success');
+                                // console.log('success');
                         }    
                         else
                         {
                                 props.appCont.StartHandMoveFunc.current('fail');
-                                console.log('fail');
+                                // console.log('fail');
                         }
                         cursorCanMoveFunc(false)
                 }
@@ -184,23 +184,23 @@ export function PixiElem()
                     <div id="PIXI-CONTAINER" className="absolute z-[2] top-[0] h-[170px] bottom-[0] my-auto left-[10px] ">
                             <Stage
 
-                                    width={20}
+                                    width={13}
                                     height={172}
                                 //     options={{ background: 'red' }}
                                     >
                                         
                                     <Container
                                                 position={[0,0]}
-                                                width={20}
+                                                width={13}
                                                 height={170}
                                                 
                                     >
                                         
-                                        <CusrorBack  w={20} h={170} colors={'0x1099bb'} />
+                                        <CusrorBack  w={13} h={170} colors={'0x024059'} />
                                         
                                         <RectangleCUrsor 
                                         appCont={_appContext}  
-                                        w={20} h={5} colors={'red'} />
+                                        w={13} h={5} colors={'white'} />
                                     </Container>
                                     
                                     

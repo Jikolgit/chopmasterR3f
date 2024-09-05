@@ -10,7 +10,8 @@ export let appContext = createContext(null);
 let pixiContext = createContext(null);
 
 function App() {
-  let refCount = useRef(0)
+  let refCount = useRef(0);
+  let gamePause = useRef(false);
   const [count, setCount] = useState(0);
   const ContainerContext = useRef(null);
   let cursorControllerFunc = useRef(null);

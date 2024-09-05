@@ -101,7 +101,7 @@ export function Brick_1_Model()
 
           return true;
         }
-        brickNormalRef.current.position.x = 0
+        brickNormalRef.current.position.x = -0.3
       let counter2 = new CustomCounter(50,0,_function,null);
       counter2.start();
       
@@ -266,7 +266,7 @@ export function Brick_2_Model()
 
           return true;
         }
-        brickNormalRef.current.position.x = 0
+        brickNormalRef.current.position.x = -0.3
       let counter2 = new CustomCounter(50,0,_function,null);
       counter2.start();
       

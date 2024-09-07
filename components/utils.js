@@ -64,3 +64,4 @@ export class CustomCounter
         window.cancelAnimationFrame(this.animationContainer)
     }
 }
+

@@ -9,13 +9,12 @@ import { useFrame } from '@react-three/fiber';
 import { appContext } from '../src/App';
 import { CustomCounter } from './utils';
 import { AudioManage } from './audioComp';
-import { Brick_1_Model,Brick_2_Model } from './BrickModels';
+import { Brick_1_Model } from './BrickModels';
 
 export const HandModelContext = createContext(null);
 export const BrickManagerContext = createContext(null);
 export function HandModel(props) {
   const _appContext = useContext(appContext);
-  const Level = useRef(1)
   const group = React.useRef()
   let buttonClicked = useRef(false);
   let brickManagerFunc = useRef(null);
@@ -75,8 +74,8 @@ export function HandModel(props) {
       handModeRef.current.position.y = 12;
       if(args == 'RESTART'){}
       else if(args == 'NEXT')
-      {
-          Level.current ++;
+      {   _appContext.setOnce.current = false;
+          _appContext.Level.current ++;
       }
       brickManagerFunc.current('RESET-BRICK');
       
@@ -119,7 +118,20 @@ export function HandModel(props) {
     }
   let effectAfterbrickIsReady = ()=>
     { 
+    
+      // _appContext.pixiControllerFunc.current('SHOW-CURSOR')
+      if(_appContext.Level.current == 2 && !_appContext.setOnce.current)
+      {
+        _appContext.setOnce.current = true;
+        _appContext.pixiControllerFunc.current('REDUCE-SUCCESS')
+      }
+      else
+      {
+        _appContext.canClickOnButton.current = true;
+      }
+      
       _appContext.cursorControllerFunc.current('restart');
+      _appContext.cursorControllerFunc.current(true);
       buttonClicked.current = false
       handModeRef.current.visible = true;
       stopHandNormalAnimation.current = false
@@ -145,7 +157,7 @@ export function HandModel(props) {
     },[])
   return (
     <HandModelContext.Provider
-      value={{resetHandPosition,effectAfterbrickIsReady,brickManagerFunc,Level}}
+      value={{resetHandPosition,effectAfterbrickIsReady,brickManagerFunc}}
     >
      
         <group ref={group} {...props} dispose={null}>
@@ -168,19 +180,23 @@ export function HandModel(props) {
 function BrickManager()
 {
   let _handModelContext = useContext(HandModelContext)
-  let [brickModel,setBrickModel] = useState(<Brick_1_Model />);
+  let _appContext = useContext(appContext)
   let brickModelFunctions = useRef(null);
-  const BrickArray = useRef([<Brick_1_Model key={0} />,<Brick_2_Model key={1} />])
+  const BrickArray = useRef([<Brick_1_Model level={1} key={0} />,
+                              <Brick_1_Model level={2} key={1} />
+                              // <Brick_2_Model key={1} />
+                            ])
+  let [brickModel,setBrickModel] = useState(<Brick_1_Model level={_appContext.Level.current} />);
   let brickManagerFunctions = (args)=>
     {
-      if(args == 'DROP-BRICK')
-      {
-        setBrickModel(c => c = null);
+      // if(args == 'DROP-BRICK')
+      // {
+      //   setBrickModel(c => c = null);
 
-        let resetBrickCounter = new CustomCounter(20,0,()=>{setBrickModel(c => c = <Brick_1_Model />); return true},null);
-        resetBrickCounter.start();
-      }
-      else if(args == 'BREAKE-BRICK')
+      //   let resetBrickCounter = new CustomCounter(20,0,()=>{setBrickModel(c => c = <Brick_1_Model />); return true},null);
+      //   resetBrickCounter.start();
+      // }
+       if(args == 'BREAKE-BRICK')
       { 
         brickModelFunctions.current("brake");
       }
@@ -192,7 +208,7 @@ function BrickManager()
       {
         setBrickModel(c => c = null);
 
-        let resetBrickCounter = new CustomCounter(20,0,()=>{setBrickModel(c => c = BrickArray.current[_handModelContext.Level.current-1] ); return true},null);
+        let resetBrickCounter = new CustomCounter(20,0,()=>{setBrickModel(c => c = <Brick_1_Model level={_appContext.Level.current} /> ); return true},null);
         resetBrickCounter.start();
       }
       

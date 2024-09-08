@@ -95,20 +95,24 @@ export function HandModel(props) {
             }
             else
             {
-              // handMoveObj.speed = handMoveObj.speed*1.05;
+              
               handModeRef.current.position.y -= 0.1*handMoveObj.speed;
             }
         }
         else if(handMoveObj.type == 'fail')
         {
             if(handModeRef.current.position.y <= 4.2)
-            { AudioManage.play('punch-fail')
+            { 
+              AudioManage.play('punch-fail')
               handMoveObj.start = false;
+              _appContext.PlayerLife.current --;
+              
+              _appContext.playerLifeVueControllerFunc.current('UPDATE')
               brickManagerFunc.current('SHAKE-BRICK');
             }
             else
             {
-              // handMoveObj.speed = handMoveObj.speed*1.05;
+              
               handModeRef.current.position.y -= 0.1*handMoveObj.speed;
             }
         }
@@ -194,10 +198,7 @@ function BrickManager()
   let _handModelContext = useContext(HandModelContext)
   let _appContext = useContext(appContext)
   let brickModelFunctions = useRef(null);
-  const BrickArray = useRef([<Brick_1_Model level={1} key={0} />,
-                              <Brick_1_Model level={2} key={1} />
-                              // <Brick_2_Model key={1} />
-                            ])
+
   let [brickModel,setBrickModel] = useState(<Brick_1_Model level={_appContext.Level.current} />);
   let brickManagerFunctions = (args)=>
     {
@@ -247,3 +248,6 @@ useGLTF.preload('/model_2.glb')
 //On pourra même jouer en fonction de la distance
 
 //BONUS la barre devient rapide et petite et le cube brille mais si on arrive a le briser on gagne beaucoup
+
+//BUT DU JEUX
+//Un seul mode pour le moment on ne fait que casser des briques et monter en niveaux

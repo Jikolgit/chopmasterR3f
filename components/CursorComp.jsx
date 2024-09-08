@@ -7,19 +7,19 @@ function CursorElem(props)
     let _appContext = useContext(appContext)
     let cursorRef = useRef(null);
     let cursorSpeedValue = [1,2,2.5,5];
-    let cursorSpeedValueIndex =useRef(0);
-    let cursorSpeed = useRef(cursorSpeedValue[0]) // 1 2 2.5 5 a changer en fonction de la concentration
+    // let cursorSpeedValueIndex =useRef(0);
+    let cursorSpeed = useRef(cursorSpeedValue[_appContext.cursorSpeedValueIndex.current]) // 1 2 2.5 5 a changer en fonction de la concentration
     let animationContainer = useRef(null)
     let cursorDirection = useRef('DOWN')
     let cursorPosition = useRef(0);
     let cursorCanMove = useRef(false);
-    let successZoneHeight =  _appContext.Level.current == 5 ? 20 : 60;
+    let successZoneHeight =  _appContext.Level.current >= 5 ? 20 : 60;
     const SuccessZoneParam = useRef({y:(170*0.5)-(successZoneHeight*0.5) ,h:successZoneHeight});
     
 
     let startCursorMove = ()=>
         {
-            if(cursorCanMove.current)
+            if(cursorCanMove.current && !_appContext.gamePause.current)
             {
                 if(cursorDirection.current=='DOWN')
                     {
@@ -98,8 +98,8 @@ function CursorElem(props)
                     }
                     else if(args=='INCREASE-SPEED')
                     {
-                            cursorSpeedValueIndex.current = cursorSpeedValueIndex.current+1
-                            cursorSpeed.current = cursorSpeedValue[cursorSpeedValueIndex.current];
+                            _appContext.cursorSpeedValueIndex.current = _appContext.cursorSpeedValueIndex.current+1
+                            cursorSpeed.current = cursorSpeedValue[_appContext.cursorSpeedValueIndex.current];
                             _appContext.canClickOnButton.current = true;
                     }
                     else

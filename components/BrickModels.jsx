@@ -107,9 +107,19 @@ export function Brick_1_Model(props)
 
           return true;
         }
-        brickNormalRef.current.position.x = -0.3
-      let counter2 = new CustomCounter(50,0,_function,null);
-      counter2.start();
+        
+        brickNormalRef.current.position.x = -0.3;
+        if(_appContext.PlayerLife.current > 0)
+        {
+          let counter2 = new CustomCounter(50,0,_function,null);
+          counter2.start();
+        }
+        else
+        {
+          let counter2 = new CustomCounter(50,0,()=>{_appContext.gameOverScreenControllerFunc.current('SHOW-GAME-OVER');return true},null);
+          counter2.start();
+        }
+        
       
     }
   let dropBrickAnimation = ()=>

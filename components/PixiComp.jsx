@@ -170,19 +170,19 @@ function RectangleCUrsor(props)
                                 cursorCanMoveFunc(args)
                         }
                 }
-        useEffect(()=>
-                {
-                        props.appCont.cursorControllerFunc.current = (args)=>
-                        {
-                                cursorController(args);
-                        }
-                        if(props.autoStart)
-                        {
-                                cursorCanMove.current = true;
-                                props.appCont.canClickOnButton.current = true;
-                        }
+        // useEffect(()=>
+        //         {
+        //                 props.appCont.cursorControllerFunc.current = (args)=>
+        //                 {
+        //                         cursorController(args);
+        //                 }
+        //                 if(props.autoStart)
+        //                 {
+        //                         cursorCanMove.current = true;
+        //                         props.appCont.canClickOnButton.current = true;
+        //                 }
                         
-                },[])
+        //         },[])
               return(
                         <>
                                 <Container

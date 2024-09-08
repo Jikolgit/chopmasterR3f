@@ -119,11 +119,23 @@ export function HandModel(props) {
   let effectAfterbrickIsReady = ()=>
     { 
     
-      // _appContext.pixiControllerFunc.current('SHOW-CURSOR')
-      if(_appContext.Level.current == 2 && !_appContext.setOnce.current)
+      
+      if(!_appContext.setOnce.current)
       {
+        if(_appContext.Level.current == 5)
+        {
+          _appContext.cursorManagerControllerFunc.current('REDUCE-SUCCESS')
+        }
+        else if(_appContext.Level.current == 7)
+        {
+          
+          _appContext.cursorControllerFunc.current('INCREASE-SPEED')
+        }
+        else
+        {
+          _appContext.canClickOnButton.current = true;
+        }
         _appContext.setOnce.current = true;
-        _appContext.pixiControllerFunc.current('REDUCE-SUCCESS')
       }
       else
       {
@@ -233,3 +245,5 @@ function BrickManager()
 
 useGLTF.preload('/model_2.glb')
 //On pourra même jouer en fonction de la distance
+
+//BONUS la barre devient rapide et petite et le cube brille mais si on arrive a le briser on gagne beaucoup

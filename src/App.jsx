@@ -1,8 +1,8 @@
 import { Canvas } from '@react-three/fiber'
 import { createContext, useContext, useEffect,useCallback, useRef, useState } from 'react'
-import { HandModel } from '../components/GameApp'
+import { CameraManager, HandModel } from '../components/GameApp'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
-import { GameOverScreen, GameTitle, GameUi_ActionButton, NotificationMsg, PauseButton, PauseScreenContainer, PlayerLifeVue, ShopScreenContainer } from '../components/GameUi';
+import { GameOverScreen, GameTitle, GameUi_ActionButton, LoadingScreen, NotificationMsg, PauseButton, PauseScreenContainer, PlayerLifeVue, ShopScreenContainer } from '../components/GameUi';
 import { CursorContainer } from '../components/CursorComp';
 export let appContext = createContext(null);
 let pixiContext = createContext(null);
@@ -21,9 +21,10 @@ function App() {
   let notificationControllerFunc = useRef(null);
   let playerLifeVueControllerFunc = useRef(null);
   let gameOverScreenControllerFunc = useRef(null);
+  let loadingScreenControllerFunc = useRef(null);
   const StartHandMoveFunc = useRef(null);
   let cursorManagerControllerFunc = useRef(null);
-  let gameVueRef = useRef('PLAY')
+  let gameVueRef = useRef('TITLE')
   let [gameVue,setGameVue] = useState(gameVueRef.current);
   let cursorSpeedValueIndex =useRef(0);
 
@@ -61,7 +62,7 @@ function App() {
     <>
         <appContext.Provider
           value={{gameOverScreenControllerFunc,playerLifeVueControllerFunc,notificationControllerFunc,PlayerLife,
-                  cursorSpeedValueIndex,
+                  cursorSpeedValueIndex,loadingScreenControllerFunc,
                   pauseScreenContainerControllerFunc,gamePause,AppController,StartHandMoveFunc,ContainerContext,
                   count,refCount,cursorControllerFunc,Level,cursorManagerControllerFunc,canClickOnButton,setOnce}}
         >
@@ -71,9 +72,8 @@ function App() {
                 {gameVue == 'PLAY' &&
                         <>
                             <HandModel />
-                            <axesHelper args={[5]} />
-                            <PerspectiveCamera position={[30,25,-10]} makeDefault />
-                            <OrbitControls target={[0,3,0]} />
+                            
+                            <CameraManager />
                         </>
                 }
                 
@@ -87,6 +87,7 @@ function App() {
             {gameVue == 'TITLE' && <GameTitle />}
             {gameVue == 'SHOP' && <ShopScreenContainer />}
             <NotificationMsg />
+            {gameVue == 'PLAY' && <LoadingScreen />}
             
         </div>
         </appContext.Provider>

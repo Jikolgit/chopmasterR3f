@@ -28,7 +28,7 @@ export function Brick_1_Model(props)
   let animationManager = {start:false}
   let brickMat = useRef(new THREE.MeshBasicMaterial({map:bricktxt_1,transparent:true}));
   let brickShakeFromLeft = true
-  let action_1 = null
+  let hideBrickObj = useRef(null);
 
 
  
@@ -83,9 +83,9 @@ export function Brick_1_Model(props)
     {
       brickExplodeRef.current.children[0].material.transparent = true;
       
-      let cCounter = new CustomCounter(3,0,reduceOpacity,null);
+      hideBrickObj.current = new CustomCounter(3,0,reduceOpacity,null);
 
-      cCounter.start();
+      hideBrickObj.current.start();
       
 
     }
@@ -165,7 +165,10 @@ export function Brick_1_Model(props)
           
           
         }
-  
+        return()=>
+          {
+            hideBrickObj.current?.cancelCounter()
+          }
     },[])
   useEffect(()=>
     {

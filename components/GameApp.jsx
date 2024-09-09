@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.5.0 ./public/model_2.glb
 */
 import * as THREE from 'three';
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
-import { useAnimations, useGLTF, useTexture } from '@react-three/drei'
+import { OrbitControls, PerspectiveCamera, useAnimations, useGLTF, useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber';
 import { appContext } from '../src/App';
 import { CustomCounter } from './utils';
@@ -170,6 +170,7 @@ export function HandModel(props) {
   useEffect(()=>
     {
       _appContext.StartHandMoveFunc.current = (args)=>{startHandMove(args)} ;
+      _appContext.loadingScreenControllerFunc.current('HIDE-LOADING');
     },[])
   return (
     <HandModelContext.Provider
@@ -244,6 +245,71 @@ function BrickManager()
   )
 }
 
+export function CameraManager()
+{
+  let camRef = useRef(null);
+  let moveStep = useRef('LEFT');
+  let moveCamera = ()=>
+    {
+       if(moveStep.current=='LEFT')
+       {
+          if(camRef.current.position.z >= 10)
+          {
+              moveStep.current='DOWN'
+              console.log(camRef.current.position.z)
+          }
+          else{camRef.current.position.z = Math.round((camRef.current.position.z +0.1) *10)/10}
+         
+       }
+       else if(moveStep.current=='DOWN')
+       {
+          if(camRef.current.position.y <= 15)
+          {
+              moveStep.current='RIGHT'
+              console.log(camRef.current.position.y)
+          }
+          else{camRef.current.position.y = Math.round((camRef.current.position.y-0.1) *10)/10}
+         
+       }
+       else if(moveStep.current=='RIGHT')
+        {
+          if(camRef.current.position.z <= -10)
+          {
+              moveStep.current='UP'
+              console.log(camRef.current.position.z)
+          }
+          else{camRef.current.position.z = Math.round((camRef.current.position.z -0.1) *10)/10}
+        }
+        else if(moveStep.current=='UP')
+        {
+          if(camRef.current.position.y >= 25 )
+          {
+              moveStep.current='LEFT'
+              console.log(camRef.current.position.y)
+          }
+          else{camRef.current.position.y = Math.round((camRef.current.position.y +0.1) *10)/10}
+        }
+       
+       return false;
+    }
+  useEffect(()=>
+    {
+      let customCounter = new CustomCounter(5,0,moveCamera,null);
+      customCounter.start();
+
+      return()=>
+        {
+          customCounter.cancelCounter();
+        }
+    },[])
+
+  return(
+          <>
+              <PerspectiveCamera ref={camRef} position={[30,25,-10]} makeDefault />
+              <OrbitControls target={[0,3,0]} />
+          </>
+  )
+}
 useGLTF.preload('/model_2.glb')
 //On pourra même jouer en fonction de la distance
 

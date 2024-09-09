@@ -83,18 +83,21 @@ export function PauseScreenContainer()
 
     let togglePause = (args)=>
         {
-            _appContext.gamePause.current = args;
-            setPauseScreen(_appContext.gamePause.current)
+            if(_appContext.canClickOnButton.current)
+            {
+                _appContext.gamePause.current = args;
+                setPauseScreen(_appContext.gamePause.current)
+            }
+            
         }
     
     useEffect(()=>
         {
             _appContext.pauseScreenContainerControllerFunc.current = (args)=>
                 {
-                    if(args)
-                    {
+                   
                         togglePause(args)
-                    }
+                    
                 }
         },[])
     return(
@@ -244,6 +247,7 @@ export function GameOverScreen()
                 {
                     if(args == 'SHOW-GAME-OVER')
                     {
+                        _appContext.PlayerLife.current = 5;
                         setShowGameOver(true)
                     }
                 }
@@ -257,9 +261,9 @@ export function GameOverScreen()
                         >
                             Partie Terminée
                         </div>
-                        <div className="mt-[50px] ">
+                        {/* <div className="mt-[50px] ">
                             <img onClick={()=>{_appContext.AppController('RESTART')}}  src="restartButton.png" alt="Reprendre" className="cursor-pointer w-[150px] mx-auto " />
-                        </div>
+                        </div> */}
                         <div className="mt-[50px] ">
                             <img onClick={()=>{_appContext.AppController('TITLE')}}  src="quittButton.png" alt="Quitter" className="cursor-pointer w-[150px] mx-auto " />
                         </div>
@@ -271,24 +275,34 @@ export function GameOverScreen()
 export function LoadingScreen()
 {
     let _appContext = useContext(appContext)
-    let [showGameOver,setShowGameOver] = useState(true)
+    let [showLoadingScreen,setShowLoadingScreen] = useState(true);
+
+    useEffect(()=>
+        {
+            _appContext.loadingScreenControllerFunc.current = (args)=>
+                {
+                    if(args == 'HIDE-LOADING')
+                    {
+                        setShowLoadingScreen(false);
+                    }
+                }
+        },[])
     return(
             <>
-                {showGameOver &&
-                    <div className="w-full h-full bg-blue-500 absolute top-[0] left-[0] z-[4] ">
+                {showLoadingScreen &&
+                    <div className="w-full h-full bg-blue-800/70 absolute top-[0] left-[0] z-[5] ">
                         <div
                             className="text-center text-[2.5rem] text-white font-bold "
                         >
-                            Partie Terminée
+                            Chargement.......
                         </div>
-                        <div className="mt-[50px] ">
-                            <img onClick={()=>{togglePause(false)}}  src="restartButton.png" alt="Reprendre" className="cursor-pointer w-[150px] mx-auto " />
-                        </div>
-                        <div className="mt-[50px] ">
-                            <img onClick={()=>{_appContext.AppController('TITLE')}}  src="quittButton.png" alt="Quitter" className="cursor-pointer w-[150px] mx-auto " />
-                        </div>
+                        
                     </div>
                 }
             </>
     )
 }
+
+//LoadingScreen 5
+//GameOverScreen,Pause Screen 4
+//Notification 3

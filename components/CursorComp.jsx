@@ -13,8 +13,15 @@ function CursorElem(props)
     let cursorDirection = useRef('DOWN')
     let cursorPosition = useRef(0);
     let cursorCanMove = useRef(false);
-    let successZoneHeight =  _appContext.Level.current >= 5 ? 20 : 60;
-    const SuccessZoneParam = useRef({y:(170*0.5)-(successZoneHeight*0.5) ,h:successZoneHeight});
+    // let successZoneHeight =  _appContext.Level.current >= 5 ? 20 : 30;
+    // let successZonePosition;
+    let successZoneSizeArr = [10,40,30,20,10];
+    let succesZoneSize = successZoneSizeArr[1];
+    const SuccessZonePosition = [(170*0.5)-(succesZoneSize*0.5),
+                                 5-(succesZoneSize*0.5),
+                                 50-(succesZoneSize*0.5),
+                                 80-(succesZoneSize*0.5)];
+    const SuccessZoneParam = useRef({y:SuccessZonePosition[3] ,h:succesZoneSize});
     
 
     let startCursorMove = ()=>
@@ -129,10 +136,10 @@ function CursorElem(props)
                 <div
                     className="absolute z-[2] top-[0] w-[13px] h-[170px] bottom-[0] my-auto left-[20px] "
                 >
-                    <div className="w-full h-full bg-[#024059] "></div>
+                    <div className="w-full h-full bg-[#024059] overflow-hidden "></div>
                     <div id="SUCCESS-ZONE"
-                    style={{height:successZoneHeight}} 
-                    className={`w-full h-[60px] bg-[#04bf8a] absolute z-[2] top-[0] bottom-[0] my-auto `}></div>
+                    style={{height:SuccessZoneParam.current.h,top:SuccessZoneParam.current.y}} 
+                    className={`w-full bg-[#04bf8a] absolute z-[2] `}></div>
                     <div ref={cursorRef} id="CURSOR" 
                     className="w-full h-[2px] bg-white absolute z-[5] top-[0]
                             ">

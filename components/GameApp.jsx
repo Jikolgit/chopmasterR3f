@@ -21,7 +21,7 @@ export function HandModel(props) {
   const { nodes, materials,animations } = useGLTF('/model_2.glb');
   let handModeRef = useRef(null)
   const {actions} = useAnimations(animations,group)
-  let [txt,supportTXT] = useTexture(['handtxt1.jpg','supportTXT.jpg']);
+  let [txt,supportTXT,groundtxt] = useTexture(['handtxt1.jpg','supportTXT.jpg','groundtxt.jpg']);
   let passedTime = useRef(0);
   let stopHandNormalAnimation = useRef(false)
   txt.flipY = false;
@@ -32,9 +32,14 @@ export function HandModel(props) {
   supportTXT.colorSpace = THREE.SRGBColorSpace; 
   supportTXT.minFilter = THREE.LinearFilter;
   supportTXT.magFilter = THREE.LinearFilter;
+  groundtxt.flipY = false;
+  groundtxt.colorSpace = THREE.SRGBColorSpace; 
+  groundtxt.minFilter = THREE.LinearFilter;
+  groundtxt.magFilter = THREE.LinearFilter;
 
   let modelTxt = new THREE.MeshBasicMaterial({map:txt});
   let supportMat = new THREE.MeshBasicMaterial({map:supportTXT});
+  let ground_1_Mat = new THREE.MeshBasicMaterial({map:groundtxt});
   let handBox = new THREE.MeshBasicMaterial({wireframe:true,color:'white',visible:false});
   let startAnimation = true
   let timer = 0;
@@ -187,6 +192,7 @@ export function HandModel(props) {
                     </mesh>
               </mesh>
               <mesh name="support" geometry={nodes.support.geometry} material={supportMat} position={[-0.254, -1, 0.246]} />
+              <mesh name="ground_1" geometry={nodes.ground_1.geometry} material={ground_1_Mat} position={[-0.254, -1, 0.246]} />
               <BrickManager />
         </group>
     </HandModelContext.Provider>
@@ -256,7 +262,7 @@ export function CameraManager()
           if(camRef.current.position.z >= 10)
           {
               moveStep.current='DOWN'
-              console.log(camRef.current.position.z)
+              
           }
           else{camRef.current.position.z = Math.round((camRef.current.position.z +0.1) *10)/10}
          
@@ -266,7 +272,7 @@ export function CameraManager()
           if(camRef.current.position.y <= 15)
           {
               moveStep.current='RIGHT'
-              console.log(camRef.current.position.y)
+              
           }
           else{camRef.current.position.y = Math.round((camRef.current.position.y-0.1) *10)/10}
          
@@ -276,7 +282,7 @@ export function CameraManager()
           if(camRef.current.position.z <= -10)
           {
               moveStep.current='UP'
-              console.log(camRef.current.position.z)
+             
           }
           else{camRef.current.position.z = Math.round((camRef.current.position.z -0.1) *10)/10}
         }
@@ -285,7 +291,7 @@ export function CameraManager()
           if(camRef.current.position.y >= 25 )
           {
               moveStep.current='LEFT'
-              console.log(camRef.current.position.y)
+              
           }
           else{camRef.current.position.y = Math.round((camRef.current.position.y +0.1) *10)/10}
         }
@@ -294,7 +300,7 @@ export function CameraManager()
     }
   useEffect(()=>
     {
-      let customCounter = new CustomCounter(5,0,moveCamera,null);
+      let customCounter = new CustomCounter(2,0,moveCamera,null);
       customCounter.start();
 
       return()=>
@@ -306,7 +312,7 @@ export function CameraManager()
   return(
           <>
               <PerspectiveCamera ref={camRef} position={[30,25,-10]} makeDefault />
-              <OrbitControls target={[0,3,0]} />
+              <OrbitControls enableZoom={false} enableRotate={false} enableDamping={false} target={[0,3,0]} />
           </>
   )
 }

@@ -298,6 +298,7 @@ export function CameraManager()
        
        return false;
     }
+  console.log('cam')
   useEffect(()=>
     {
       let customCounter = new CustomCounter(2,0,moveCamera,null);

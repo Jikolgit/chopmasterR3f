@@ -67,7 +67,9 @@ function App() {
                   pauseScreenContainerControllerFunc,gamePause,AppController,StartHandMoveFunc,ContainerContext,
                   count,refCount,cursorControllerFunc,Level,cursorManagerControllerFunc,canClickOnButton,setOnce}}
         >
-        <div ref={ContainerContext} className={`absolute bg-black max-w-[700px] left-[0] right-[0] mx-auto  w-full 
+        <div ref={ContainerContext}
+        style={{backgroundColor:'#6fbbc7'}} 
+        className={`absolute max-w-[700px] left-[0] right-[0] mx-auto  w-full 
         md1:h-[100%] md1:max-h-[700px] h-[600px] select-none `}>
             <Canvas>
                 {gameVue == 'PLAY' &&
@@ -75,6 +77,7 @@ function App() {
                             <HandModel />
                             
                             <CameraManager />
+                            
                         </>
                 }
                 

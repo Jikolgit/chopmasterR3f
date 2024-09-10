@@ -15,13 +15,18 @@ function CursorElem(props)
     let cursorCanMove = useRef(false);
     // let successZoneHeight =  _appContext.Level.current >= 5 ? 20 : 30;
     // let successZonePosition;
-    let successZoneSizeArr = [10,40,30,20,10];
+    let successZoneSizeArr = [10,40,30,20,60];
     let succesZoneSize = successZoneSizeArr[1];
-    const SuccessZonePosition = [(170*0.5)-(succesZoneSize*0.5),
-                                 5-(succesZoneSize*0.5),
-                                 50-(succesZoneSize*0.5),
-                                 80-(succesZoneSize*0.5)];
-    const SuccessZoneParam = useRef({y:SuccessZonePosition[3] ,h:succesZoneSize});
+    const SuccessZonePositionArr = [(170*0.5)-(succesZoneSize*0.5),
+        5-(succesZoneSize*0.5),
+        50-(succesZoneSize*0.5),
+        100-(succesZoneSize*0.5)];
+    let succesZonePosition = SuccessZonePositionArr[0]
+    if(_appContext.Level.current == 4){succesZoneSize = successZoneSizeArr[2];succesZonePosition = SuccessZonePositionArr[3]}
+    else if(_appContext.Level.current == 6){succesZoneSize = successZoneSizeArr[3];succesZonePosition = SuccessZonePositionArr[2]}
+    else if(_appContext.Level.current == 9){succesZoneSize = successZoneSizeArr[4];succesZonePosition = SuccessZonePositionArr[1]}
+
+    const SuccessZoneParam = useRef({y:succesZonePosition,h:succesZoneSize});
     
 
     let startCursorMove = ()=>
@@ -158,7 +163,7 @@ export function CursorContainer(props)
         {
             _appContext.cursorManagerControllerFunc.current = (args)=>
             {
-                if(args == 'REDUCE-SUCCESS')
+                if(args == 'UPDATE-CURSOR')
                 {
                     setContainer(null);
                     let resetCursor = ()=>

@@ -21,7 +21,7 @@ export function HandModel(props) {
   const { nodes, materials,animations } = useGLTF('/model_2.glb');
   let handModeRef = useRef(null)
   const {actions} = useAnimations(animations,group)
-  let [txt,supportTXT,groundtxt] = useTexture(['handtxt1.jpg','supportTXT.jpg','groundtxt.jpg']);
+  let [txt,supportTXT,groundtxt] = useTexture(['handtxt1.jpg','supportTXT.jpg','groundtxt2.jpg']);
   let passedTime = useRef(0);
   let stopHandNormalAnimation = useRef(false)
   txt.flipY = false;
@@ -131,9 +131,9 @@ export function HandModel(props) {
       
       if(!_appContext.setOnce.current)
       {
-        if(_appContext.Level.current == 5)
+        if(_appContext.Level.current == 4 || _appContext.Level.current == 6 || _appContext.Level.current == 9)
         {
-          _appContext.cursorManagerControllerFunc.current('REDUCE-SUCCESS')
+          _appContext.cursorManagerControllerFunc.current('UPDATE-CURSOR')
         }
         else if(_appContext.Level.current == 7)
         {
@@ -314,6 +314,7 @@ export function CameraManager()
               <PerspectiveCamera ref={camRef} position={[30,25,-10]} makeDefault />
               {/* <OrbitControls enableZoom={false} enableRotate={false} enableDamping={false} target={[0,3,0]} /> */}
               <OrbitControls  target={[0,3,0]} />
+              <fog attach={'fog'} args={["#6fbbc7",35,70]} />
           </>
   )
 }

@@ -19,9 +19,13 @@ export function GameUi_ActionButton()
         },[])
     return(
             <>
-                <div onClick={actionButton} className="w-[50px] h-[50px] bg-red-500 cursor-pointer
-                                absolute z-[2] left-[0] right-[0] bottom-[10px] mx-auto 
-                "></div>
+                <div onClick={actionButton} className="w-[60px] h-[60px] cursor-pointer rounded-full bg-blue-500
+                                absolute z-[2] left-[0] right-[0] bottom-[10px] mx-auto border-[2px] border-yellow-500
+                                flex overflow-hidden p-[5px]
+                ">
+                    <div className="w-full h-full absolute z-[2] "></div>
+                    <img src="actionicon.png" alt="action" className="w-full" />
+                </div>
             </>
     )
 }

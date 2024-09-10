@@ -58,6 +58,7 @@ function App() {
         setGameVue(gameVueRef.current);
       }
     }
+
   return (
     <>
         <appContext.Provider

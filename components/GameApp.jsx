@@ -299,30 +299,16 @@ export function CameraManager()
        
        return false;
     }
-  console.log('cam')
   useEffect(()=>
     {
-      // let customCounter = new CustomCounter(2,0,moveCamera,null);
-      // customCounter.start();
+      let customCounter = new CustomCounter(2,0,moveCamera,null);
+      customCounter.start();
 
-      // return()=>
-      //   {
-      //     customCounter.cancelCounter();
-      //   }
+      return()=>
+        {
+          customCounter.cancelCounter();
+        }
     },[])
-    // useFrame(()=>
-    //   {
-    //     if(cameraTimer.current.delay == 0)
-    //     {
-    //       cameraTimer.current.delay = 2
-    //       moveCamera()
-    //     }
-    //     else
-    //     {
-    //       cameraTimer.current.delay --
-    //     }
-        
-    //   })
   return(
           <>
               <PerspectiveCamera ref={camRef} position={[30,25,-10]} makeDefault />

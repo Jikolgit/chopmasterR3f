@@ -19,14 +19,19 @@ export function Brick_1_Model(props)
   const brickExplodeRef = useRef(null);
   const { nodes, materials,animations } = useGLTF('/model_2.glb');
   const {mixer, clips,actions} = useAnimations(animations,group)
-  let [blockN,blockL,blockR,blockLAnim,blockRAnim,blockLName,blockRName,brickSkin] = generateBlockData(props.level)
-  let bricktxt_1 = useTexture(brickSkin);
-  bricktxt_1.flipY = false;
-  bricktxt_1.colorSpace = THREE.SRGBColorSpace; 
-  bricktxt_1.minFilter = THREE.LinearFilter;
-  bricktxt_1.magFilter = THREE.LinearFilter;
+  let [blockN,blockL,blockR,blockLAnim,blockRAnim,blockLName,blockRName,brickSkinIndex] = generateBlockData(props.level)
+  let [bricktxt_1,bricktxt_2] = useTexture(['bricktxt1.jpg','block_1_txt.jpg']);
+  let textureContainer = [bricktxt_1,bricktxt_2];
+  for(let i =0;i<textureContainer.length;i++)
+  {
+    textureContainer[i].flipY = false;
+    textureContainer[i].colorSpace = THREE.SRGBColorSpace; 
+    textureContainer[i].minFilter = THREE.LinearFilter;
+    textureContainer[i].magFilter = THREE.LinearFilter;
+  }
+
   let animationManager = {start:false}
-  let brickMat = useRef(new THREE.MeshBasicMaterial({map:bricktxt_1,transparent:true}));
+  let brickMat = useRef(new THREE.MeshBasicMaterial({map:textureContainer[brickSkinIndex],transparent:true}));
   let brickShakeFromLeft = true
   let hideBrickObj = useRef(null);
 
@@ -174,7 +179,12 @@ export function Brick_1_Model(props)
     {
         let customCounter = new CustomCounter(1,0,dropBrickAnimation,null);
         customCounter.start();
+        return()=>
+          {
+            customCounter.cancelCounter();
+          }
     },[])
+  // console.log('brick render')
   return(
           <>
                 <group

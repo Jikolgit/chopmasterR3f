@@ -670,10 +670,6 @@ video {
   display: flex;
 }
 
-.hidden {
-  display: none;
-}
-
 .h-\[160px\] {
   height: 160px;
 }
@@ -700,10 +696,6 @@ video {
 
 .h-\[600px\] {
   height: 600px;
-}
-
-.h-\[60px\] {
-  height: 60px;
 }
 
 .h-full {
@@ -853,11 +845,6 @@ video {
 }
 
 .bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.bg-\[\#ffffff\] {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }

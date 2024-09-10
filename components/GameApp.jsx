@@ -301,7 +301,7 @@ export function CameraManager()
     }
   useEffect(()=>
     {
-      let customCounter = new CustomCounter(2,0,moveCamera,null);
+      let customCounter = new CustomCounter(5,0,moveCamera,null);
       customCounter.start();
 
       return()=>
@@ -312,7 +312,8 @@ export function CameraManager()
   return(
           <>
               <PerspectiveCamera ref={camRef} position={[30,25,-10]} makeDefault />
-              <OrbitControls enableZoom={false} enableRotate={false} enableDamping={false} target={[0,3,0]} />
+              {/* <OrbitControls enableZoom={false} enableRotate={false} enableDamping={false} target={[0,3,0]} /> */}
+              <OrbitControls  target={[0,3,0]} />
           </>
   )
 }

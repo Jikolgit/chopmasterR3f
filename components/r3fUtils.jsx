@@ -39,13 +39,13 @@ export function generateBlockData(level)
         {
             return Block_1
         }
-        else if(level >= 3 && level < 7)
+        else if(level >= 3 && level < 6)
         {
             return Block_2
         }
-        else if(level >= 3 && level < 11)
+        else if(level >= 6 && level < 11)
         {
-            return Block_3
+            return Block_6
         }
         else if(level >= 11 && level < 14)
         {

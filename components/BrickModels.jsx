@@ -19,7 +19,8 @@ export function Brick_1_Model(props)
   const brickExplodeRef = useRef(null);
   const { nodes, materials,animations } = useGLTF('/model_2.glb');
   const {mixer, clips,actions} = useAnimations(animations,group)
-  let [blockN,blockL,blockR,blockLAnim,blockRAnim,blockLName,blockRName,brickSkinIndex] = generateBlockData(props.level)
+  // let [blockN,blockL,blockR,blockLAnim,blockRAnim,blockLName,blockRName,brickSkinIndex] = generateBlockData(props.level)
+  let [blockNormal,blockNormalName,blockExplosionParts,brickSkinIndex] = generateBlockData(props.level)
   let [bricktxt_1,bricktxt_2] = useTexture(['bricktxt1.jpg','block_1_txt.jpg']);
   let textureContainer = [bricktxt_1,bricktxt_2];
   for(let i =0;i<textureContainer.length;i++)
@@ -29,25 +30,41 @@ export function Brick_1_Model(props)
     textureContainer[i].minFilter = THREE.LinearFilter;
     textureContainer[i].magFilter = THREE.LinearFilter;
   }
-
+  let actualBlockForAnimation = useRef('none')
   let animationManager = {start:false}
   let brickMat = useRef(new THREE.MeshBasicMaterial({map:textureContainer[brickSkinIndex],transparent:true}));
   let brickShakeFromLeft = true
   let hideBrickObj = useRef(null);
-
-
+  let brickNormalContainer;
+  let blockExplodeContainer = [];
+  let blockExplodeAnimeContainer = [];
+  // {geo:geometry,name:BlockName,blockAnime:blockAnime}
+  brickNormalContainer = <mesh ref={brickNormalRef} name={blockNormalName} rotation={blockExplosionParts[0].blockRot} scale={blockExplosionParts[0].blockScale} geometry={blockNormal} material={brickMat.current} position={blockExplosionParts[0].blockPos} />
+  for(let i =0;i<blockExplosionParts.length;i++)
+  {
+    blockExplodeContainer[i] = <mesh key={i} scale={blockExplosionParts[i].blockScale}  name={blockExplosionParts[i].blockName} geometry={blockExplosionParts[i].blockGeo} material={brickMat.current}  position={blockExplosionParts[i].blockPos} 
+                                rotation={blockExplosionParts[i].blockRot}
+                                />
+    blockExplodeAnimeContainer[i] =blockExplosionParts[i].blockAnime
+  }
  
 
   useFrame(()=>
     {
+      startBrickAnimation();
       if(animationManager.start)
       {
-        if(actions[blockLAnim].time >= 1.2)
+        if(actions[blockExplodeAnimeContainer[0]].time >= 1.2)
           {
             animationManager.start = false
          
-            actions[blockLAnim].paused = true ;
-            actions[blockRAnim].paused = true ;
+            // actions[blockLAnim].paused = true ;
+            // actions[blockRAnim].paused = true ;
+
+            for(let i =0;i<blockExplodeAnimeContainer.length;i++)
+            {
+              actions[blockExplodeAnimeContainer[i]].paused = true ;
+            }
             hideBrick();
           }
           else
@@ -127,13 +144,26 @@ export function Brick_1_Model(props)
         
       
     }
+  let startBrickAnimation = ()=>
+    {
+      if(actualBlockForAnimation.current == 'block_6')
+      {
+          brickNormalRef.current.rotation.y += 0.01;
+      }
+    }
   let dropBrickAnimation = ()=>
     {
+      
       brickNormalRef.current.position.y -= 0.5
       if(brickNormalRef.current.position.y <= 2)
       {
         brickNormalRef.current.position.y = 2;
         _modelContext.effectAfterbrickIsReady();
+        if(blockNormalName == 'block_6')
+        {
+            actualBlockForAnimation.current = 'block_6'
+        }
+        
         return true;
       }
       else
@@ -143,10 +173,13 @@ export function Brick_1_Model(props)
     }
   useEffect(()=>
     {
-      
-       actions[blockLAnim]?.setLoop(THREE.LoopOnce,1)
+      for(let i =0;i<blockExplodeAnimeContainer.length;i++)
+      { 
+        actions[blockExplodeAnimeContainer[i]]?.setLoop(THREE.LoopOnce,1)
+      }
+      //  actions[blockLAnim]?.setLoop(THREE.LoopOnce,1)
      
-       actions[blockRAnim]?.setLoop(THREE.LoopOnce,1)
+      //  actions[blockRAnim]?.setLoop(THREE.LoopOnce,1)
 
        _brickManagerContext.brickModelFunctions.current = (type)=>
         { 
@@ -158,8 +191,13 @@ export function Brick_1_Model(props)
             
             animationManager.start = true;
             
-            actions[blockLAnim]?.play();
-            actions[blockRAnim]?.play();
+            for(let i =0;i<blockExplodeAnimeContainer.length;i++)
+            {
+              actions[blockExplodeAnimeContainer[i]]?.play();
+            }
+
+            // actions[blockLAnim]?.play();
+            // actions[blockRAnim]?.play();
           }
           else if(type == 'no-brake')
           {
@@ -177,6 +215,7 @@ export function Brick_1_Model(props)
     },[])
   useEffect(()=>
     {
+      brickNormalRef.current.position.y = 10;
         let customCounter = new CustomCounter(1,0,dropBrickAnimation,null);
         customCounter.start();
         return()=>
@@ -184,7 +223,13 @@ export function Brick_1_Model(props)
             customCounter.cancelCounter();
           }
     },[])
-  // console.log('brick render')
+  useEffect(()=>
+    {
+      if(blockNormalName == 'block_6')
+      {
+        
+      }
+    },[])
   return(
           <>
                 <group
@@ -194,10 +239,15 @@ export function Brick_1_Model(props)
                 >
                 
                 <group name='BRICK-EXPLODE-ANIMATION' ref={brickExplodeRef} visible={false}  >
-                    <mesh   name={blockLName} geometry={blockL} material={brickMat.current}  position={[0, 2, 0]} />
-                    <mesh   name={blockRName} geometry={blockR} material={brickMat.current} position={[0, 2, 0]} rotation={[0, 0, -Math.PI]} />
+                    {blockExplodeContainer}
+                    {/* <mesh   name={'block_1_left'} geometry={nodes.block_1_left.geometry} material={brickMat.current}  position={[0, 2, 0]} />
+                    <mesh   name={'block_1_right'} geometry={nodes.block_1_right.geometry} material={brickMat.current} position={[0, 2, 0]} rotation={[0, 0, -Math.PI]} /> */}
+
+                    {/* <mesh   name={blockLName} geometry={blockL} material={brickMat.current}  position={[0, 2, 0]} />
+                    <mesh   name={blockRName} geometry={blockR} material={brickMat.current} position={[0, 2, 0]} rotation={[0, 0, -Math.PI]} /> */}
                 </group>
-                <mesh ref={brickNormalRef} name="block_1" geometry={blockN} material={brickMat.current} position={[-0.3, 10, 0]} />
+                {brickNormalContainer}
+                {/* <mesh ref={brickNormalRef} name="block_1" geometry={blockN} material={brickMat.current} position={[-0.3, 10, 0]} /> */}
               </group>
           </>
   )

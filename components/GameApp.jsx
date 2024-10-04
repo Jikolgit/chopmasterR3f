@@ -131,7 +131,7 @@ export function HandModel(props) {
       
       if(!_appContext.setOnce.current)
       {
-        if(_appContext.Level.current == 4 || _appContext.Level.current == 6 || _appContext.Level.current == 9)
+        if(_appContext.Level.current == 4 || _appContext.Level.current == 6 || _appContext.Level.current == 9 || _appContext.Level.current == 13)
         {
           _appContext.cursorManagerControllerFunc.current('UPDATE-CURSOR')
         }

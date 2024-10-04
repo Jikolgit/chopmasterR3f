@@ -9,7 +9,7 @@ let pixiContext = createContext(null);
 
 function App() {
   let refCount = useRef(0);
-  const PlayerLife = useRef(5);
+  const PlayerLife = useRef(3);
   let gamePause = useRef(false);
   let canClickOnButton = useRef(true)
   const Level = useRef(1);

@@ -25,6 +25,7 @@ function CursorElem(props)
     if(_appContext.Level.current == 4){succesZoneSize = successZoneSizeArr[2];succesZonePosition = SuccessZonePositionArr[3]}
     else if(_appContext.Level.current == 6){succesZoneSize = successZoneSizeArr[3];succesZonePosition = SuccessZonePositionArr[2]}
     else if(_appContext.Level.current == 9){succesZoneSize = successZoneSizeArr[4];succesZonePosition = SuccessZonePositionArr[1]}
+    else if(_appContext.Level.current == 13){succesZoneSize = successZoneSizeArr[0];succesZonePosition = SuccessZonePositionArr[0]}
 
     const SuccessZoneParam = useRef({y:succesZonePosition,h:succesZoneSize});
     

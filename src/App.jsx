@@ -1,8 +1,8 @@
 import { Canvas } from '@react-three/fiber'
 import { createContext, useContext, useEffect,useCallback, useRef, useState } from 'react'
 import { CameraManager, HandModel } from '../components/GameApp'
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
-import { GameOverScreen, GameTitle, GameUi_ActionButton, LoadingScreen, NotificationMsg, PauseButton, PauseScreenContainer, PlayerLifeVue, ShopScreenContainer } from '../components/GameUi';
+import { OrbitControls, PerspectiveCamera, Text } from '@react-three/drei'
+import { GameBrickCounter, GameOverScreen, GameTitle, GameUi_ActionButton, LoadingScreen, NotificationMsg, PauseButton, PauseScreenContainer, PlayerLifeVue, ShopScreenContainer } from '../components/GameUi';
 import { CursorContainer } from '../components/CursorComp';
 export let appContext = createContext(null);
 let pixiContext = createContext(null);
@@ -11,10 +11,13 @@ function App() {
   let refCount = useRef(0);
   const PlayerLife = useRef(3);
   let gamePause = useRef(false);
+  let updateCursorLevel  = useRef([1,2,3,4,5])
   let canClickOnButton = useRef(true)
   const Level = useRef(1);
   let setOnce = useRef(false);
   const [count, setCount] = useState(0);
+  let brickTry = useRef('none');
+  let brickTryUpdate = useRef(false);
   const ContainerContext = useRef(null);
   let cursorControllerFunc = useRef(null);
   let pauseScreenContainerControllerFunc = useRef(null);
@@ -22,6 +25,7 @@ function App() {
   let playerLifeVueControllerFunc = useRef(null);
   let gameOverScreenControllerFunc = useRef(null);
   let loadingScreenControllerFunc = useRef(null);
+  let gameBrickCounterControllerFunc = useRef(null)
   const StartHandMoveFunc = useRef(null);
   let cursorManagerControllerFunc = useRef(null);
   let gameVueRef = useRef('TITLE')
@@ -63,20 +67,23 @@ function App() {
     <>
         <appContext.Provider
           value={{gameOverScreenControllerFunc,playerLifeVueControllerFunc,notificationControllerFunc,PlayerLife,
-                  cursorSpeedValueIndex,loadingScreenControllerFunc,
-                  pauseScreenContainerControllerFunc,gamePause,AppController,StartHandMoveFunc,ContainerContext,
-                  count,refCount,cursorControllerFunc,Level,cursorManagerControllerFunc,canClickOnButton,setOnce}}
+                  cursorSpeedValueIndex,loadingScreenControllerFunc,gameBrickCounterControllerFunc,updateCursorLevel,
+                  pauseScreenContainerControllerFunc,gamePause,AppController,StartHandMoveFunc,ContainerContext,brickTryUpdate,
+                  count,refCount,cursorControllerFunc,Level,cursorManagerControllerFunc,canClickOnButton,setOnce,brickTry}}
         >
         <div ref={ContainerContext}
         style={{backgroundColor:'#6fbbc7'}} 
         className={`absolute max-w-[700px] left-[0] right-[0] mx-auto  w-full 
         md1:h-[100%] md1:max-h-[700px] h-[600px] select-none `}>
             <Canvas>
+                
                 {gameVue == 'PLAY' &&
                         <>
                             <HandModel />
                             
                             <CameraManager />
+
+                            
                             
                         </>
                 }
@@ -87,6 +94,7 @@ function App() {
             {gameVue == 'PLAY' && <PauseButton />}
             {gameVue == 'PLAY' && <PauseScreenContainer />}
             {gameVue == 'PLAY' && <PlayerLifeVue />}
+            {gameVue == 'PLAY' && <GameBrickCounter />}
             {gameVue == 'PLAY' && <GameOverScreen />}
             {gameVue == 'TITLE' && <GameTitle />}
             {gameVue == 'SHOP' && <ShopScreenContainer />}

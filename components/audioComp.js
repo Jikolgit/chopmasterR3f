@@ -2,8 +2,8 @@ import {Howl, Howler} from 'howler';
 let audioOn =true;
 let audioSrc = new URL('../punch.wav',import.meta.url);
 let audioSrc2 = new URL('../punchFail.wav',import.meta.url);
-// let audioSrc3 = new URL('../sound/walk_6.wav',import.meta.url);
-// let audioSrc4 = new URL('../sound/playerhit.wav',import.meta.url);
+let audioSrc3 = new URL('../bombCounter.wav',import.meta.url);
+let audioSrc4 = new URL('../bombExplode.mp3',import.meta.url);
 // let audioSrc5 = new URL('../sound/click.wav',import.meta.url);
 // let audioSrc6 = new URL('../sound/ambience.wav',import.meta.url);
 // let audioSrc7 = new URL('../sound/heal.wav',import.meta.url);
@@ -17,6 +17,12 @@ let hitAudio = new Howl({
 let hitFailAudio = new Howl({
     src: [audioSrc2.href]
   });
+let bombCounterAudio = new Howl({
+  src: [audioSrc3.href]
+});
+let bombExplodeAudio = new Howl({
+  src: [audioSrc4.href]
+});
 // let shootAudio=new Audio(audioSrc2.href);
 // let walkAudio=new Audio(audioSrc3.href);
 // let playerhitAudio = new Howl({
@@ -71,6 +77,8 @@ export class AudioManage{
       {
         if(audio=='punch'){hitAudio.play()}
         else if(audio == 'punch-fail'){hitFailAudio.play()}
+        else if(audio == 'bomb-counter'){bombCounterAudio.play()}
+        else if(audio == 'bomb-explode'){bombExplodeAudio.play()}
         // else if(audio=='hit'){shootAudio.play()}
         // else if(audio=='walk'){walkAudio.play()}
         // else if(audio=='playerhit'){playerhitAudio.play()}

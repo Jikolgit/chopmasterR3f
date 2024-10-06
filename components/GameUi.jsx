@@ -91,6 +91,7 @@ export function PauseScreenContainer()
             {
                 _appContext.gamePause.current = args;
                 setPauseScreen(_appContext.gamePause.current)
+                
             }
             
         }
@@ -208,6 +209,34 @@ export function NotificationMsg()
             <>
                 {notfiContainer}
             </>
+    )
+}
+
+export function GameBrickCounter()
+{
+    let _appContext = useContext(appContext);
+    let [playBrickCounterValue,setPlayBrickCounterValue] = useState(_appContext.Level.current);
+
+    useEffect(()=>
+        {
+            _appContext.gameBrickCounterControllerFunc.current = (args)=>
+                {
+                    if(args == 'UPDATE-SCORE')
+                    {
+                        setPlayBrickCounterValue(_appContext.Level.current);
+                    }
+                    
+                }
+        },[])
+    return(
+        <div className="w-[80px] h-[30px] mt-[25px] mx-auto flex justify-around 
+                        absolute z-[2] left-[10px] top-[40px]">
+                <img src="brickicon.jpg" alt="brick icon" className="w-[30px] block " />
+                <div className="text-[1.2rem] text-white flex flex-col justify-center">x</div>
+                <div className="text-[1.5rem] text-white font-bold flex flex-col justify-center">
+                    {playBrickCounterValue}
+                </div>
+        </div>
     )
 }
 

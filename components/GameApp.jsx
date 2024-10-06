@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.5.0 ./public/model_2.glb
 */
 import * as THREE from 'three';
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
-import { OrbitControls, PerspectiveCamera, useAnimations, useGLTF, useTexture } from '@react-three/drei'
+import { OrbitControls, PerspectiveCamera, Text, useAnimations, useGLTF, useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber';
 import { appContext } from '../src/App';
 import { CustomCounter } from './utils';
@@ -49,7 +49,7 @@ export function HandModel(props) {
   let brick = {brake:true}
   let startHandMove = (type)=>
     { 
-
+          brickManagerFunc.current('STOP-BOMB-TIMER');
           if(!buttonClicked.current)
           {
             if(type == 'success')
@@ -81,6 +81,7 @@ export function HandModel(props) {
       else if(args == 'NEXT')
       {   _appContext.setOnce.current = false;
           _appContext.Level.current ++;
+          _appContext.gameBrickCounterControllerFunc.current('UPDATE-SCORE')
       }
       brickManagerFunc.current('RESET-BRICK');
       
@@ -108,11 +109,12 @@ export function HandModel(props) {
         {
             if(handModeRef.current.position.y <= 4.2)
             { 
-              AudioManage.play('punch-fail')
-              handMoveObj.start = false;
-              _appContext.PlayerLife.current --;
               
+              handMoveObj.start = false;
+
+              _appContext.PlayerLife.current --;
               _appContext.playerLifeVueControllerFunc.current('UPDATE')
+              
               brickManagerFunc.current('SHAKE-BRICK');
             }
             else
@@ -125,15 +127,38 @@ export function HandModel(props) {
         
       }
     }
+  let disableCLick = ()=>{_appContext.canClickOnButton.current = false;}
+  let setGameOver = ()=>
+    {
+      disableCLick()
+      _appContext.gameOverScreenControllerFunc.current('SHOW-GAME-OVER');
+    }
+
+
   let effectAfterbrickIsReady = ()=>
     { 
     
-      
+      let update = false;
+      for(let i =0;i < _appContext.updateCursorLevel.current.length;i++)
+      {
+        if(_appContext.Level.current == _appContext.updateCursorLevel.current[i])
+        {
+          update = true;
+          break;
+          
+        }
+      }
+
       if(!_appContext.setOnce.current)
       {
-        if(_appContext.Level.current == 4 || _appContext.Level.current == 6 || _appContext.Level.current == 9 || _appContext.Level.current == 13)
+        if(update)
         {
           _appContext.cursorManagerControllerFunc.current('UPDATE-CURSOR')
+          if(_appContext.Level.current >4)
+          {
+            _appContext.cursorControllerFunc.current('INCREASE-SPEED')
+          }
+          
         }
         else if(_appContext.Level.current == 7)
         {
@@ -172,14 +197,17 @@ export function HandModel(props) {
       handNormalAnimation()
       
     })
+    
   useEffect(()=>
     {
+      
+      
       _appContext.StartHandMoveFunc.current = (args)=>{startHandMove(args)} ;
       _appContext.loadingScreenControllerFunc.current('HIDE-LOADING');
     },[])
   return (
     <HandModelContext.Provider
-      value={{resetHandPosition,effectAfterbrickIsReady,brickManagerFunc}}
+      value={{resetHandPosition,effectAfterbrickIsReady,brickManagerFunc,setGameOver,disableCLick}}
     >
      
         <group ref={group} {...props} dispose={null}>
@@ -220,6 +248,10 @@ function BrickManager()
       { 
         brickModelFunctions.current("brake");
       }
+      else if(args == 'STOP-BOMB-TIMER')
+      {
+        brickModelFunctions.current('stop-bomb-counter');
+      }
       else if(args == 'SHAKE-BRICK')
       { 
         brickModelFunctions.current("no-brake");
@@ -245,6 +277,16 @@ function BrickManager()
               <BrickManagerContext.Provider
                 value={{brickModelFunctions}}
               >
+                <Text
+                                                                                          
+                font="ds_digit.TTF"
+                characters='1234567890'
+                fontSize={2} fontWeight={1000}
+                rotation={[0,0,0]}
+                position={[0,-5,0]} color={'white'} anchorX={"center"} anchorY={"middle"}
+                >
+                9
+                </Text> 
               {brickModel}
               </BrickManagerContext.Provider>
           </>

@@ -43,9 +43,14 @@ export function Model(props) {
         <mesh name="block_6_part_5" geometry={nodes.block_6_part_5.geometry} material={nodes.block_6_part_5.material} position={[0.016, 3.191, 0]} scale={1.669} />
         <mesh name="block_6_part_6" geometry={nodes.block_6_part_6.geometry} material={nodes.block_6_part_6.material} position={[0.016, 3.191, 0]} scale={1.669} />
         <mesh name="block_7_part_3" geometry={nodes.block_7_part_3.geometry} material={nodes.block_7_part_3.material} position={[-0.293, 2.49, 0.102]} rotation={[0, 0, -Math.PI / 2]} />
-        <mesh name="block_7" geometry={nodes.block_7.geometry} material={nodes.block_7.material} position={[-28.293, 2.49, 0.102]} rotation={[0, 0, -Math.PI / 2]} />
+        <mesh name="block_7" geometry={nodes.block_7.geometry} material={nodes.block_7.material} position={[-28.293, 2.49, 0.102]} rotation={[0, 0, -Math.PI / 2]}>
+          <mesh name="block_7_screen" geometry={nodes.block_7_screen.geometry} material={nodes.block_7_screen.material}>
+            <mesh name="block_7_timer" geometry={nodes.block_7_timer.geometry} material={nodes.block_7_timer.material} position={[-0.851, -0.069, 1.424]} />
+          </mesh>
+        </mesh>
         <mesh name="block_7_part_1" geometry={nodes.block_7_part_1.geometry} material={nodes.block_7_part_1.material} position={[-0.293, 2.49, 0.102]} rotation={[0, 0, -Math.PI / 2]} />
         <mesh name="block_7_part_2" geometry={nodes.block_7_part_2.geometry} material={nodes.block_7_part_2.material} position={[-0.293, 2.49, 0.102]} rotation={[0, 0, -Math.PI / 2]} />
+        <mesh name="block_7_explosion" geometry={nodes.block_7_explosion.geometry} material={nodes.block_7_explosion.material} position={[0.009, 2.825, 0.083]} />
       </group>
     </group>
   )

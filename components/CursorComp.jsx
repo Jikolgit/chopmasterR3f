@@ -16,7 +16,7 @@ function CursorElem(props)
     // let successZoneHeight =  _appContext.Level.current >= 5 ? 20 : 30;
     // let successZonePosition;
     // let successZoneSizeArr = [10,40,30,20,60];
-    let successZoneSizeArr = [40,35,30,25,5];
+    let successZoneSizeArr = [40,35,30,25,10];
     let succesZoneSize = successZoneSizeArr[1];
     const SuccessZonePositionArr = [(170*0.5)-(succesZoneSize*0.5),
         5-(succesZoneSize*0.5),
@@ -27,7 +27,7 @@ function CursorElem(props)
     else if(_appContext.Level.current == 2){ succesZonePosition = SuccessZonePositionArr[0]}
     else if(_appContext.Level.current == 3){succesZoneSize = successZoneSizeArr[2];succesZonePosition = SuccessZonePositionArr[0]}
     else if(_appContext.Level.current == 4){succesZoneSize = successZoneSizeArr[3];succesZonePosition = SuccessZonePositionArr[0]}
-    else if(_appContext.Level.current == 5){succesZoneSize = successZoneSizeArr[2];succesZonePosition = SuccessZonePositionArr[0]}
+    else if(_appContext.Level.current == 5){succesZoneSize = successZoneSizeArr[4];succesZonePosition = SuccessZonePositionArr[0]}
     // if(_appContext.Level.current == 4){succesZoneSize = successZoneSizeArr[2];succesZonePosition = SuccessZonePositionArr[3]}
     // else if(_appContext.Level.current == 6){succesZoneSize = successZoneSizeArr[3];succesZonePosition = SuccessZonePositionArr[2]}
     // else if(_appContext.Level.current == 9){succesZoneSize = successZoneSizeArr[4];succesZonePosition = SuccessZonePositionArr[1]}

@@ -163,7 +163,7 @@ export function HandModel(props) {
         else if(_appContext.Level.current == 7)
         {
           
-          _appContext.cursorControllerFunc.current('INCREASE-SPEED')
+          // _appContext.cursorControllerFunc.current('INCREASE-SPEED')
         }
         else
         {

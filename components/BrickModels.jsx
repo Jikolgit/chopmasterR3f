@@ -254,7 +254,7 @@ export function Brick_1_Model(props)
       {
         brickNormalRef.current.position.y = 2;
         _modelContext.effectAfterbrickIsReady();
-        console.log(blockNormalName)
+        console.log(_appContext.Level.current)
         if(blockNormalName == 'block_6')
         {
             actualBlockForAnimation.current = 'block_6'
@@ -262,7 +262,7 @@ export function Brick_1_Model(props)
         
         else if(blockNormalName == 'block_7')
         {
-          console.log(_appContext.brickTry.current)
+          
           if(_appContext.brickTry.current == 0)
           { 
             startBlock_7_Counter_Animation()

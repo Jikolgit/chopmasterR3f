@@ -162,7 +162,7 @@ export function HandModel(props) {
         }
         else if(_appContext.Level.current == 7)
         {
-          
+          _appContext.canClickOnButton.current = true;
           // _appContext.cursorControllerFunc.current('INCREASE-SPEED')
         }
         else

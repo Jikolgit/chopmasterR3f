@@ -254,7 +254,7 @@ export function Brick_1_Model(props)
       {
         brickNormalRef.current.position.y = 2;
         _modelContext.effectAfterbrickIsReady();
-        console.log(_appContext.Level.current)
+        
         if(blockNormalName == 'block_6')
         {
             actualBlockForAnimation.current = 'block_6'

@@ -39,8 +39,9 @@ export function GameTitle()
         }
     let gotToShop = ()=>
         {
+            
             // _appContext.AppController('SHOP')
-            _appContext.notificationControllerFunc.current('SHOW-NOTIF')
+            _appContext.AppController('SHOP')
         }
     return(
             <>
@@ -57,7 +58,7 @@ export function GameTitle()
                         </div>
                         <div className="mt-[50px] ">
                             {/* <img onClick={startGame}  src="playButton.png" alt="play" className="cursor-pointer w-[150px] mx-auto " /> */}
-                            <ButtonTemplate type={1} title={'START'} callBack={startGame} />
+                            <ButtonTemplate type={1} title={'PLAY'} callBack={startGame} />
                         </div>
                         <div className="mt-[50px] ">
                             {/* <img onClick={gotToShop}  src="shopButton.png" alt="shop" className="cursor-pointer w-[150px] mx-auto " /> */}
@@ -137,22 +138,38 @@ export function ShopScreenContainer()
     return(
             <>
                 
-                    <div className="w-full h-full bg-blue-500 absolute top-[0] left-[0] z-[4] ">
-                        <div
-                            className="text-center text-[2.5rem] text-white font-bold "
-                        >
-                            GLOVES
-                        </div>
-                        <div
-                        style={{whiteSpace:'nowrap'}}
-                        className="overflow-scroll max-w-[420px] w-[95%] h-[230px] mx-auto bg-blue-700 rounded-[15px] py-[15px] ">
-                                <ShopElem />
-                        </div>
-                        <div className="mt-[50px] ">
-                            <img onClick={()=>{_appContext.AppController('TITLE')}}  src="backButton.png" alt="continuer" className="cursor-pointer w-[150px] mx-auto " />
-                        </div>
+                    <div
+                        className="absolute top-0 left-0 right-0 mx-auto text-center text-[2.5rem] text-white font-bold "
+                    >
+                        GLOVES
                     </div>
-                
+                    <div
+                        onClick={(evt)=>{_appContext.shopViewController.current('LEFT')}}
+                        className={`rounded-[10px] opacity-50
+                                    absolute bottom-[115px] left-[250px] w-[50px] h-[50px]
+                                    cursor-pointer select-none 
+                                    bg-gray-500 `}
+                    >
+                        <svg width={50} height={50} fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="m15 18-6-6 6-6" />
+                        </svg>
+                    </div> 
+                    <div
+                        onClick={(evt)=>{_appContext.shopViewController.current('RIGHT')}}
+                        className={`rounded-[10px] opacity-50
+                                    absolute bottom-[115px] right-[250px] w-[50px] h-[50px]
+                                    cursor-pointer select-none
+                                     bg-gray-500 `}
+                    >
+                        <svg width={50} height={50} fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </div> 
+                    
+                    <div className="absolute bottom-[10px] left-0 right-0 mx-auto ">
+                        {/* <img onClick={()=>{_appContext.AppController('TITLE')}}  src="backButton.png" alt="continuer" className="cursor-pointer w-[150px] mx-auto " /> */}
+                        <ButtonTemplate type={2} title={'BACK'} callBack={()=>{_appContext.AppController('TITLE')}} />
+                    </div>
             </>
     )
 }

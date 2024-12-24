@@ -13,6 +13,17 @@ import { Brick_1_Model } from './BrickModels';
 
 export const HandModelContext = createContext(null);
 export const BrickManagerContext = createContext(null);
+
+export function prepareTexture(_txt)
+{
+  let txt = useTexture(_txt);
+  txt.flipY = false;
+  txt.colorSpace = THREE.SRGBColorSpace; 
+  txt.minFilter = THREE.LinearFilter;
+  txt.magFilter = THREE.LinearFilter;
+
+  return txt;
+}
 export function HandModel(props) {
   const _appContext = useContext(appContext);
   const group = React.useRef()
@@ -21,21 +32,12 @@ export function HandModel(props) {
   const { nodes, materials,animations } = useGLTF('/model_2.glb');
   let handModeRef = useRef(null)
   const {actions} = useAnimations(animations,group)
-  let [txt,supportTXT,groundtxt] = useTexture(['handtxt1.jpg','supportTXT.jpg','groundtxt2.jpg']);
   let passedTime = useRef(0);
   let stopHandNormalAnimation = useRef(false)
-  txt.flipY = false;
-  txt.colorSpace = THREE.SRGBColorSpace; 
-  txt.minFilter = THREE.LinearFilter;
-  txt.magFilter = THREE.LinearFilter;
-  supportTXT.flipY = false;
-  supportTXT.colorSpace = THREE.SRGBColorSpace; 
-  supportTXT.minFilter = THREE.LinearFilter;
-  supportTXT.magFilter = THREE.LinearFilter;
-  groundtxt.flipY = false;
-  groundtxt.colorSpace = THREE.SRGBColorSpace; 
-  groundtxt.minFilter = THREE.LinearFilter;
-  groundtxt.magFilter = THREE.LinearFilter;
+
+  let txt = prepareTexture('handtxt1.jpg');
+  let supportTXT = prepareTexture('supportTXT.jpg');
+  let groundtxt = prepareTexture('groundtxt2.jpg');
 
   let modelTxt = new THREE.MeshBasicMaterial({map:txt});
   let supportMat = new THREE.MeshBasicMaterial({map:supportTXT});
@@ -211,14 +213,24 @@ export function HandModel(props) {
     >
      
         <group ref={group} {...props} dispose={null}>
-          
-              <mesh name='HAND-BOX' ref={handModeRef} visible={false} geometry={nodes.hand_1_box.geometry} material={handBox} position={[0.5,12,0]}>
-                    <mesh rotation={[0,Math.PI,Math.PI]}  geometry={nodes.hand_1.geometry} material={modelTxt} position={[-0.3,2.3,0.2]} >
-                            <mesh geometry={nodes.hand_1.geometry} scale={1.03}>
-                                    <meshBasicMaterial visible={false} color={'red'} side={THREE.BackSide} />
-                            </mesh>
+              {_appContext.currentGLove.current == 1 && 
+                    <mesh name='HAND-BOX' ref={handModeRef} visible={false} geometry={nodes.hand_1_box.geometry} material={handBox} position={[0.5,12,0]}>
+                        <mesh rotation={[0,Math.PI,Math.PI]}  geometry={nodes.hand_1.geometry} material={modelTxt} position={[-0.3,2.3,0.2]} >
+                                <mesh geometry={nodes.hand_1.geometry} scale={1.03}>
+                                        <meshBasicMaterial visible={false} color={'red'} side={THREE.BackSide} />
+                                </mesh>
+                        </mesh>
                     </mesh>
-              </mesh>
+              }
+              {_appContext.currentGLove.current == 2 && 
+                    <mesh name='HAND-BOX' ref={handModeRef} visible={false} geometry={nodes.hand_2_box.geometry} material={handBox} position={[0.5,12,0]}>
+                        <mesh rotation={[0,Math.PI,Math.PI]}  geometry={nodes.hand_2.geometry} material={modelTxt} position={[-0.3,2.3,0.2]} >
+                                <mesh geometry={nodes.hand_2.geometry} scale={1.03}>
+                                        <meshBasicMaterial visible={false} color={'red'} side={THREE.BackSide} />
+                                </mesh>
+                        </mesh>
+                    </mesh>
+              }
               <mesh name="support" geometry={nodes.support.geometry} material={supportMat} position={[-0.254, -1, 0.246]} />
               <mesh name="ground_1" geometry={nodes.ground_1.geometry} material={ground_1_Mat} position={[-0.254, -1, 0.246]} />
               <BrickManager />
@@ -278,7 +290,7 @@ function BrickManager()
                 value={{brickModelFunctions}}
               >
                 <Text
-                                                                                          
+                visible={false}
                 font="ds_digit.TTF"
                 characters='1234567890'
                 fontSize={2} fontWeight={1000}

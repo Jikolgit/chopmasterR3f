@@ -4,11 +4,14 @@ import { CameraManager, HandModel } from '../components/GameApp'
 import { OrbitControls, PerspectiveCamera, Text } from '@react-three/drei'
 import { GameBrickCounter, GameOverScreen, GameTitle, GameUi_ActionButton, LoadingScreen, NotificationMsg, PauseButton, PauseScreenContainer, PlayerLifeVue, ShopScreenContainer } from '../components/GameUi';
 import { CursorContainer } from '../components/CursorComp';
+import { Shop3DView } from '../components/Shop3dView';
 export let appContext = createContext(null);
 let pixiContext = createContext(null);
 
 function App() {
   let refCount = useRef(0);
+  let currentGLove = useRef(1);
+  let totalGLove = useRef(2);
   const PlayerLife = useRef(3);
   let gamePause = useRef(false);
   let updateCursorLevel  = useRef([1,2,3,4,5])
@@ -28,6 +31,7 @@ function App() {
   let gameBrickCounterControllerFunc = useRef(null)
   const StartHandMoveFunc = useRef(null);
   let cursorManagerControllerFunc = useRef(null);
+  let shopViewController = useRef(null)
   let gameVueRef = useRef('TITLE')
   let [gameVue,setGameVue] = useState(gameVueRef.current);
   let cursorSpeedValueIndex =useRef(0);
@@ -53,6 +57,7 @@ function App() {
       }
       else if(args == 'SHOP')
       {
+        
         gameVueRef.current = 'SHOP';
         setGameVue(gameVueRef.current);
       }
@@ -68,8 +73,8 @@ function App() {
         <appContext.Provider
           value={{gameOverScreenControllerFunc,playerLifeVueControllerFunc,notificationControllerFunc,PlayerLife,
                   cursorSpeedValueIndex,loadingScreenControllerFunc,gameBrickCounterControllerFunc,updateCursorLevel,
-                  pauseScreenContainerControllerFunc,gamePause,AppController,StartHandMoveFunc,ContainerContext,brickTryUpdate,
-                  count,refCount,cursorControllerFunc,Level,cursorManagerControllerFunc,canClickOnButton,setOnce,brickTry}}
+                  pauseScreenContainerControllerFunc,gamePause,AppController,StartHandMoveFunc,ContainerContext,brickTryUpdate,totalGLove,
+                  count,refCount,cursorControllerFunc,Level,cursorManagerControllerFunc,canClickOnButton,setOnce,brickTry,currentGLove,shopViewController}}
         >
         <div ref={ContainerContext}
         style={{backgroundColor:'#6fbbc7'}} 
@@ -87,7 +92,13 @@ function App() {
                             
                         </>
                 }
-                
+                {gameVue == 'SHOP' &&
+                        <>
+
+                            <Shop3DView />
+                            
+                        </>
+                }
             </Canvas>
             {gameVue == 'PLAY' && <GameUi_ActionButton />}
             {gameVue == 'PLAY' && <CursorContainer />}

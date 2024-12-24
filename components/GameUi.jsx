@@ -56,10 +56,12 @@ export function GameTitle()
                             </div>
                         </div>
                         <div className="mt-[50px] ">
-                            <img onClick={startGame}  src="playButton.png" alt="play" className="cursor-pointer w-[150px] mx-auto " />
+                            {/* <img onClick={startGame}  src="playButton.png" alt="play" className="cursor-pointer w-[150px] mx-auto " /> */}
+                            <ButtonTemplate type={1} title={'START'} callBack={startGame} />
                         </div>
                         <div className="mt-[50px] ">
-                            <img onClick={gotToShop}  src="shopButton.png" alt="shop" className="cursor-pointer w-[150px] mx-auto " />
+                            {/* <img onClick={gotToShop}  src="shopButton.png" alt="shop" className="cursor-pointer w-[150px] mx-auto " /> */}
+                            <ButtonTemplate type={1} title={'GLOVES'} callBack={gotToShop} />
                         </div>
                 </div>
             </>
@@ -115,10 +117,12 @@ export function PauseScreenContainer()
                             PAUSE
                         </div>
                         <div className="mt-[50px] ">
-                            <img onClick={()=>{togglePause(false)}}  src="continuerButton.png" alt="continuer" className="cursor-pointer w-[150px] mx-auto " />
+                            {/* <img onClick={()=>{togglePause(false)}}  src="continuerButton.png" alt="continuer" className="cursor-pointer w-[150px] mx-auto " /> */}
+                            <ButtonTemplate type={1} callBack={()=>{togglePause(false)}} title={"RESUME"} />
                         </div>
                         <div className="mt-[50px] ">
-                            <img onClick={()=>{_appContext.AppController('TITLE')}}  src="quittButton.png" alt="continuer" className="cursor-pointer w-[150px] mx-auto " />
+                            {/* <img onClick={()=>{_appContext.AppController('TITLE')}}  src="quittButton.png" alt="continuer" className="cursor-pointer w-[150px] mx-auto " /> */}
+                            <ButtonTemplate type={2} callBack={()=>{_appContext.AppController('TITLE')}} title={"QUIT"} />
                         </div>
                     </div>
                 }
@@ -137,7 +141,7 @@ export function ShopScreenContainer()
                         <div
                             className="text-center text-[2.5rem] text-white font-bold "
                         >
-                            GANTS
+                            GLOVES
                         </div>
                         <div
                         style={{whiteSpace:'nowrap'}}
@@ -188,7 +192,7 @@ export function NotificationMsg()
                             text-white font-[1.5rem] font-bold p-[5px]
                             transition-[top] duration-[250ms]
                             mx-auto w-[150px] h-[50px] bg-blue-500 border-white border-[1px] ">
-                    Arrive bientôt !
+                    COMING SOON !
                 </div>
             )
         }
@@ -292,7 +296,7 @@ export function GameOverScreen()
                         <div
                             className="text-center text-[2.5rem] text-white font-bold "
                         >
-                            Partie Terminée
+                            GAME OVER
                         </div>
                         {/* <div className="mt-[50px] ">
                             <img onClick={()=>{_appContext.AppController('RESTART')}}  src="restartButton.png" alt="Reprendre" className="cursor-pointer w-[150px] mx-auto " />
@@ -327,7 +331,7 @@ export function LoadingScreen()
                         <div
                             className="text-center text-[2.5rem] text-white font-bold "
                         >
-                            Chargement.......
+                            LOADING.......
                         </div>
                         
                     </div>
@@ -336,6 +340,20 @@ export function LoadingScreen()
     )
 }
 
+export function ButtonTemplate(props)
+{
+    
+    let color = props.type == 1? 'bg-blue-800' : 'bg-rose-600'
+    return(
+            <>
+                <div onClick={props.callBack}  className={`w-[150px] h-[60px] cursor-pointer rounded-[12px] ${color}  text-[1.5rem] font-bold 
+                                shadow-lg mx-auto
+                                border-[2px] border-white text-white text-center flex flex-col justify-center `}>
+                    {props.title}
+                </div>
+            </>
+    )
+}
 //LoadingScreen 5
 //GameOverScreen,Pause Screen 4
 //Notification 3
